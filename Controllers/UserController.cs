@@ -17,6 +17,7 @@ namespace ReturnOrderMgmtSystemV1.Controllers
             _IUserRepo = userRepo;
         }
         [HttpPost("UserSignUp")]
+        [AllowAnonymous]
         public IActionResult userSignUp([FromBody] UserDto userData)
         {
             try

@@ -13,6 +13,8 @@ namespace ReturnOrderMgmtSystemV1.Models
 
         public DbSet<ProcessedOrderData> processedOrderData { get; set; }
 
+        public DbSet<PaymentDetails> paymentDetails { get; set; }
+
 
     }
 }

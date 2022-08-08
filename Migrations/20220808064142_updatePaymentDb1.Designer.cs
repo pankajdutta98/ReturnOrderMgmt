@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReturnOrderMgmtSystemV1.Models;
 
 namespace ReturnOrderMgmtSystemV1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220808064142_updatePaymentDb1")]
+    partial class updatePaymentDb1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,25 +23,22 @@ namespace ReturnOrderMgmtSystemV1.Migrations
 
             modelBuilder.Entity("ReturnOrderMgmtSystemV1.Models.PaymentDetails", b =>
                 {
-                    b.Property<string>("RequestId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("CardNbr")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NameOnCard")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("TxnDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ValidThru")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RequestId");
+                    b.HasKey("CardNbr");
 
                     b.ToTable("paymentDetails");
                 });

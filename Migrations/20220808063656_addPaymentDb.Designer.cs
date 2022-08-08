@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReturnOrderMgmtSystemV1.Models;
 
 namespace ReturnOrderMgmtSystemV1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220808063656_addPaymentDb")]
+    partial class addPaymentDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,8 +23,10 @@ namespace ReturnOrderMgmtSystemV1.Migrations
 
             modelBuilder.Entity("ReturnOrderMgmtSystemV1.Models.PaymentDetails", b =>
                 {
-                    b.Property<string>("RequestId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RequestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CardNbr")
                         .IsRequired()
@@ -32,8 +36,9 @@ namespace ReturnOrderMgmtSystemV1.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("TxnDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ValidThru")
                         .IsRequired()

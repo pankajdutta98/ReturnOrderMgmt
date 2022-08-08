@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace ReturnOrderMgmtSystemV1.Repository
 {
+
     public class OrderProcessingRepo : IOrderProcessingRepo
     {
         private readonly ApplicationDbContext _db;
@@ -34,6 +35,36 @@ namespace ReturnOrderMgmtSystemV1.Repository
             }
         }
 
+        private int saveOrderDetails (OrderDataDto orderData)
+        {
+            ProcessedOrderData data = new ProcessedOrderData();
+            data.RequestId = orderData.RequestId;
+            data.customerName = orderData.customerName;
+            data.CustContactNo = orderData.CustContactNo;
+            data.ComponentType = orderData.ComponentType;
+            data.ComponentName = orderData.ComponentName;
+            data.Quantity = orderData.Quantity;
+            data.ProcessingCharge = orderData.ProcessingCharge;
+            data.PckgngAndDlvryCharge = orderData.PckgngAndDlvryCharge;
+            data.DateOfDelivery = orderData.DateOfDelivery;
+            data.RequestDate = DateTime.Now;
+
+            _db.processedOrderData.Add(data);
+            return _db.SaveChanges();
+        }
+        private int savePaymentDetails(OrderDataDto orderData)
+        {
+            PaymentDetails data = new PaymentDetails();
+            data.RequestId = orderData.RequestId;            
+            data.CardNbr = orderData.CardNbr;
+            data.NameOnCard = orderData.NameOnCard;
+            data.ValidThru = orderData.ValidThru;
+            data.TxnDate = orderData.TxnDate;
+
+            _db.paymentDetails.Add(data);
+            return _db.SaveChanges();
+        }
+
         public async Task<ProcessResponse> getProcessResponse(Char ComponentType, float? Qty)
         {
             try
@@ -43,14 +74,14 @@ namespace ReturnOrderMgmtSystemV1.Repository
                 int RecordCount = 1000 + getLatestIdCount();
                 if (ComponentType == 'I')
                 {
-                    response.RequestId = "IT-" + DateTime.Now.ToString("ddmmyyyy") + RecordCount.ToString();
+                    response.RequestId = "IT-" + DateTime.Now.ToString("ddMMyyyy") + RecordCount.ToString();
                     response.ProcessingCharge = (Qty ?? 0) * 500;
                     response.DeliveryDate = DateTime.Now.AddDays(5);
 
                 }
                 else
                 {
-                    response.RequestId = "AC-" + DateTime.Now.ToString("ddmmyyyy") + RecordCount.ToString();
+                    response.RequestId = "AC-" + DateTime.Now.ToString("ddMMyyyy") + RecordCount.ToString();
                     response.ProcessingCharge = (Qty ?? 0) * 300;
                     response.DeliveryDate = DateTime.Now.AddDays(2);
                 }
@@ -105,20 +136,27 @@ namespace ReturnOrderMgmtSystemV1.Repository
                     return -1;
                 }
 
-                ProcessedOrderData data = new ProcessedOrderData();
-                data.RequestId = orderData.RequestId;
-                data.customerName = orderData.customerName;
-                data.CustContactNo = orderData.CustContactNo;
-                data.ComponentType = orderData.ComponentType;
-                data.ComponentName = orderData.ComponentName;
-                data.Quantity = orderData.Quantity;
-                data.ProcessingCharge = orderData.ProcessingCharge;
-                data.PckgngAndDlvryCharge = orderData.PckgngAndDlvryCharge;
-                data.DateOfDelivery = orderData.DateOfDelivery;
-                data.RequestDate = DateTime.Now;
+                int status = saveOrderDetails(orderData);
 
-                _db.processedOrderData.Add(data);
-                return _db.SaveChanges();
+                if (status > 0)
+                {
+                    status = savePaymentDetails(orderData);
+                }                
+
+                //ProcessedOrderData data = new ProcessedOrderData();
+                //data.RequestId = orderData.RequestId;
+                //data.customerName = orderData.customerName;
+                //data.CustContactNo = orderData.CustContactNo;
+                //data.ComponentType = orderData.ComponentType;
+                //data.ComponentName = orderData.ComponentName;
+                //data.Quantity = orderData.Quantity;
+                //data.ProcessingCharge = orderData.ProcessingCharge;
+                //data.PckgngAndDlvryCharge = orderData.PckgngAndDlvryCharge;
+                //data.DateOfDelivery = orderData.DateOfDelivery;
+                //data.RequestDate = DateTime.Now;
+
+                //_db.processedOrderData.Add(data);
+                return status;
             }
             catch (Exception ex)
             {
@@ -128,5 +166,7 @@ namespace ReturnOrderMgmtSystemV1.Repository
 
             
         }
+
+
     }
 }

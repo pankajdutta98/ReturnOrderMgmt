@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ReturnOrderMgmtSystemV1.Repository.IRepository;
 using System;
@@ -7,6 +8,7 @@ namespace ReturnOrderMgmtSystemV1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PackagingAndDeliveryController : ControllerBase
     {
         private readonly IPackagingAndDeliveryRepo _repo;

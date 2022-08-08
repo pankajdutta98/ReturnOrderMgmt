@@ -10,6 +10,7 @@ namespace ReturnOrderMgmtSystemV1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CommponentProcessingController : ControllerBase
     {
         private readonly IOrderProcessingRepo _IRepo;
@@ -18,7 +19,7 @@ namespace ReturnOrderMgmtSystemV1.Controllers
             _IRepo = IRepo;
         }
       
-        [HttpGet("ProcessDetail"),Authorize]
+        [HttpGet("ProcessDetail")]
         public async Task<IActionResult> processDetail([FromQuery] ProcessRequest request)
         {
             try
