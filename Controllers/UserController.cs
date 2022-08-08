@@ -65,7 +65,7 @@ namespace ReturnOrderMgmtSystemV1.Controllers
                     //return BadRequest(new { message = "Invalid UserName/ Password" });
                     return Unauthorized(new { message = "Invalid UserName/ Password" });
                 }
-                return Ok(new { Token = user.token });
+                return Ok(new { Token = user.token, Name = user.Name }) ;
             }
             catch (Exception ex)
             {

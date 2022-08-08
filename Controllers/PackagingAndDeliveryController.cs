@@ -7,8 +7,7 @@ using System;
 namespace ReturnOrderMgmtSystemV1.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
+    [ApiController]    
     public class PackagingAndDeliveryController : ControllerBase
     {
         private readonly IPackagingAndDeliveryRepo _repo;
