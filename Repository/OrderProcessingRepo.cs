@@ -103,7 +103,7 @@ namespace ReturnOrderMgmtSystemV1.Repository
             //Invoke Packaging and delivery charge calculator API GetPackagingDeliveryCharge
             try
             {
-                string path = "https://localhost:44391/api/PackagingAndDelivery/GetPackagingDeliveryCharge?ItemType=" + ComponentType + "&Qty=" + Qty.ToString();
+                string path = "https://returnordertest.azurewebsites.net/api/PackagingAndDelivery/GetPackagingDeliveryCharge?ItemType=" + ComponentType + "&Qty=" + Qty.ToString();
                 double product = 0;
                 HttpResponseMessage response = await client.GetAsync(path);
                 if (response.IsSuccessStatusCode)
